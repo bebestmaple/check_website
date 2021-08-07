@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  schedule:
+      - cron: '0/10 * * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  checker:
+    name: checker
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2      
+      - name: check service
+        run: echo "WEBSITE_NOT_WORKING=$(bash ./check_website.sh ${{secrets.WEBSITES}})" >> $GITHUB_ENV        
+      - name: 'Get Date'
+        run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
+      - name: 'Send Mail'
+        if: env.WEBSITE_NOT_WORKING != ''
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: ${{secrets.MAIL_SERVER_ADDRESS}}
+          server_port: ${{secrets.MAIL_SERVER_PORT}}
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Website is Not Working (${{env.REPORT_DATE}})
+          body: ${{env.WEBSITE_NOT_WORKING}}
+          # 多个邮箱使用半角逗号分隔
+          to: ${{secrets.MAIL_TO}}
+          from: GitHub Actions WebSite Check Service
+          content_type: text/html
