@@ -10,6 +10,5 @@ do
 done
 
 #找出非200返回码的站点
-echo List of exception website:
 cat result.log | grep -v 200
 exit 0
