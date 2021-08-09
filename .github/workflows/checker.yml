@@ -32,6 +32,7 @@ jobs:
            bash ./check_website.sh "${{secrets.WEBSITES}}" >> $GITHUB_ENV
            echo 'EOF' >> $GITHUB_ENV
       - name: 'Get Date'
+        if: env.WEBSITE_NOT_WORKING  != ''
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send Mail'
         if: env.WEBSITE_NOT_WORKING  != ''
