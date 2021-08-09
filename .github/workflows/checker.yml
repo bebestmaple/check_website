@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2      
       - name: check service
         #run: echo "WEBSITE_NOT_WORKING=`$( bash ./check_website.sh ${{secrets.WEBSITES}})` " >> $GITHUB_ENV
-        run: RESULT_WC=$( ${{secrets.WEBSITES}} | xargs bash ./check_website.sh  | wc -l ) && echo " $RESULT_WC "
+        run: RESULT_WC=$(bash ./check_website.sh  `${{secrets.WEBSITES}}`  | wc -l ) && echo " $RESULT_WC "
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send Mail'
