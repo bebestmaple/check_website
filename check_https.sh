@@ -33,5 +33,5 @@ for line in $@;do # 读取存储了需要监测的域名的文件
    fi
 done
 
-cat result.log | grep -v 200
+cat result.log
 exit 0
