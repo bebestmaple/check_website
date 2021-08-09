@@ -8,7 +8,7 @@
 test -f result.log && rm -f result.log
 echo '' > result.log
 
-grep -v '^#' $@ | while read line;do # 读取存储了需要监测的域名的文件
+for line in $@;do # 读取存储了需要监测的域名的文件
     # echo "${line}"
     get_domain=$(echo "${line}" | awk -F ':' '{print $1}')
     get_port=$(echo "${line}" | awk -F ':' '{print $2}')
