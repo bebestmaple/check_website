@@ -34,7 +34,7 @@ jobs:
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send Mail'
-        if: ${{ "${{env.WEBSITE_NOT_WORKING}}"  != '' }}
+        if: env.WEBSITE_NOT_WORKING  != ""
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{secrets.MAIL_SERVER_ADDRESS}}
@@ -42,7 +42,7 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Website is Not Working (${{env.REPORT_DATE}})
-          body: ${{ "${{env.WEBSITE_NOT_WORKING}}" }}
+          body: ${{ env.WEBSITE_NOT_WORKING }}
           # 多个邮箱使用半角逗号分隔
           to: ${{secrets.MAIL_TO}}
           from: GitHub Actions WebSite Check Service
