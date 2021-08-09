@@ -26,7 +26,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2      
       - name: check service
-        run: echo "WEBSITE_NOT_WORKING='$( bash ./check_website.sh ${{secrets.WEBSITES}})' " >> $GITHUB_ENV
+        run: echo "WEBSITE_NOT_WORKING=`$( bash ./check_website.sh ${{secrets.WEBSITES}})` " >> $GITHUB_ENV
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send Mail'
