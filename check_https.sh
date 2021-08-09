@@ -24,7 +24,7 @@ for line in $@;do # 读取存储了需要监测的域名的文件
     NOW_TIME=$(date +%s -d "$(date "+%Y-%m-%d %H:%M:%S")") # 将当前的日期也转化为时间戳
     RST=$(($(($END_TIME1 - $NOW_TIME))/(60*60*24))) # 到期时间减去目前时间再转化为天数
 
-    echo "证书有效天数剩余：${RST}"
+    #echo "证书有效天数剩余：${RST}"
 
    if [ $RST -lt 30 ];then
      echo "$get_domain https 证书有效期少于30天，存在风险" >> result.log
