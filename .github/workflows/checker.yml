@@ -26,13 +26,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2      
       - name: check service
-        #run: echo "WEBSITE_NOT_WORKING=$( bash ./check_website.sh ${{secrets.WEBSITES}}  )" >> $GITHUB_ENV
-        run: bash ./check_website.sh ${{secrets.WEBSITES}}
+        run: echo "WEBSITE_NOT_WORKING=$( bash ./check_website.sh ${{secrets.WEBSITES}}  )" >> $GITHUB_ENV
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send Mail'
-        #if: env.WEBSITE_NOT_WORKING != ''
-        if:  ${{ if [[ ! -s result.log ]] }}
+        if: env.WEBSITE_NOT_WORKING != ''
         uses: dawidd6/action-send-mail@3
         with:
           server_address: ${{secrets.MAIL_SERVER_ADDRESS}}
@@ -40,7 +38,6 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Website is Not Working (${{env.REPORT_DATE}})
-          #body: ${{env.WEBSITE_NOT_WORKING}}
           body: ${{env.WEBSITE_NOT_WORKING}}
           # 多个邮箱使用半角逗号分隔
           to: ${{secrets.MAIL_TO}}
