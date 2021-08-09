@@ -32,7 +32,7 @@ jobs:
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send Mail'
         #if: env.WEBSITE_NOT_WORKING != ''
-        if:  ${{ ! -s result.log }}
+        if:  ${{ if [[ ! -s result.log ]] }}
         uses: dawidd6/action-send-mail@3
         with:
           server_address: ${{secrets.MAIL_SERVER_ADDRESS}}
