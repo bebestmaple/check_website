@@ -5,6 +5,8 @@
 # Attention:   通过域名获取证书的过期时间
 ################################################
 
+test -f result.log && rm -f result.log
+echo '' > result.log
 
 grep -v '^#' $@ | while read line;do # 读取存储了需要监测的域名的文件
     # echo "${line}"
@@ -25,8 +27,11 @@ grep -v '^#' $@ | while read line;do # 读取存储了需要监测的域名的�
     echo "证书有效天数剩余：${RST}"
 
    if [ $RST -lt 30 ];then
-     echo "$get_domain https 证书有效期少于30天，存在风险"
-   else
-     echo "$get_domain https 证书有效期在30天以上，放心使用!"
+     echo "$get_domain https 证书有效期少于30天，存在风险" >> result.log
+   #else
+   #  echo "$get_domain https 证书有效期在30天以上，放心使用!"
    fi
 done
+
+cat result.log | grep -v 200
+exit 0
